@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect } from "react";
+import {  useMemo, useRef, useEffect } from "react";
 
 function getRandomText(data, activeDiff) {
   const diffKey = activeDiff.toLowerCase().trim();
@@ -12,15 +12,13 @@ function getRandomText(data, activeDiff) {
   return "Please select a difficulty to start...";
 }
 
-export default function Text({ data, activeDiff, activeMode }) {
-  const [isStarted, setIsStarted] = useState(false);
+export default function Text({ data, activeDiff, activeMode ,userInput, setUserInput, isStarted, setIsStarted}) {
   const inputRef = useRef(null);
-  const [userInput, setUserInput] = useState("");
   const isReady = activeDiff.trim() !== "" && activeMode.trim() !== "";
 
   const currentDisplay = useMemo(() => {
     return getRandomText(data, activeDiff);
-  }, [activeDiff]);
+  }, [activeDiff, data]);
 
   function handleStart() {
     inputRef.current.focus();
@@ -31,7 +29,7 @@ export default function Text({ data, activeDiff, activeMode }) {
       inputRef.current.value = "";
       inputRef.current.focus();
     }
-  }, [activeDiff]);
+  }, [activeDiff, data, setUserInput, isStarted]);
 
   return (
     <div className="text-display-container">
@@ -79,7 +77,7 @@ export default function Text({ data, activeDiff, activeMode }) {
             transition: "all 0.3s ease",
           }}
         >
-          {currentDisplay.split("").map((char, index) => {
+          {currentDisplay.toLowerCase().split("").map((char, index) => {
             let color = "";
             if (index < userInput.length) {
               color = userInput[index] === char ? "#2ecc71" : "#e74c3c";

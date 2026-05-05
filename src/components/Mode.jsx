@@ -1,4 +1,4 @@
-export default function Mode({ activeMode, setActiveMode }) {
+export default function Mode({ activeMode, setActiveMode, isStarted }) {
   const modes = ["Timed(60s)", "passage"];
   return (
     <div className="config-item">
@@ -11,7 +11,7 @@ export default function Mode({ activeMode, setActiveMode }) {
             <li
               key={mode}
               className={`pill ${activeMode === mode ? "active" : ""}`}
-              onClick={() => setActiveMode(mode)}
+              onClick={() => !isStarted && setActiveMode(mode)}
             >
               {mode}
             </li>

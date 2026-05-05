@@ -15,6 +15,8 @@ import Text from "./components/Text";
 export default function App() {
   const [activeDiff, setActiveDiff] = useState(" ");
   const [activeMode, setActiveMode] = useState(" ");
+  const [userInput, setUserInput] = useState("");
+  const [isStarted, setIsStarted] = useState(false);
 
   return (
     <div className="app-container">
@@ -26,14 +28,22 @@ export default function App() {
       <TestToolbar>
         <Score />
         <Accuracy />
-        <Time activeMode={activeMode} />
-        <Difficulty activeDiff={activeDiff} setActiveDiff={setActiveDiff} />
-        <Mode activeMode={activeMode} setActiveMode={setActiveMode} />
+        <Time
+          activeMode={activeMode}
+          userInput={userInput}
+          isStarted={isStarted}
+        />
+        <Difficulty activeDiff={activeDiff} setActiveDiff={setActiveDiff} isStarted={isStarted} />
+        <Mode activeMode={activeMode} setActiveMode={setActiveMode} isStarted={isStarted} />
       </TestToolbar>
       <Text
         data={TYPING_DATA}
         activeDiff={activeDiff}
         activeMode={activeMode}
+        userInput={userInput}
+        setUserInput={setUserInput}
+        isStarted={isStarted}
+        setIsStarted={setIsStarted}
       />
     </div>
   );

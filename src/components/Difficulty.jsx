@@ -1,4 +1,4 @@
-export default function Difficulty({ activeDiff, setActiveDiff }) {
+export default function Difficulty({ activeDiff, setActiveDiff, isStarted }) {
   const difficulties = ["Easy", "Medium", "Hard"];
   return (
     <div className="config-item">
@@ -11,7 +11,7 @@ export default function Difficulty({ activeDiff, setActiveDiff }) {
             <li
               key={diff}
               className={`pill ${activeDiff === diff ? "active" : ""}`}
-              onClick={() => setActiveDiff(diff)}
+              onClick={() => !isStarted && setActiveDiff(diff)}
             >
               {diff}
             </li>
