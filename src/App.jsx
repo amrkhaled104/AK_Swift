@@ -11,12 +11,14 @@ import Time from "./components/Time";
 import Difficulty from "./components/Difficulty";
 import Mode from "./components/Mode";
 import Text from "./components/Text";
+import { Reload } from "./components/Reload";
 
 export default function App() {
   const [activeDiff, setActiveDiff] = useState(" ");
   const [activeMode, setActiveMode] = useState(" ");
   const [userInput, setUserInput] = useState("");
   const [isStarted, setIsStarted] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
 
   return (
     <div className="app-container">
@@ -32,9 +34,18 @@ export default function App() {
           activeMode={activeMode}
           userInput={userInput}
           isStarted={isStarted}
+          isFinished={isFinished}
         />
-        <Difficulty activeDiff={activeDiff} setActiveDiff={setActiveDiff} isStarted={isStarted} />
-        <Mode activeMode={activeMode} setActiveMode={setActiveMode} isStarted={isStarted} />
+        <Difficulty
+          activeDiff={activeDiff}
+          setActiveDiff={setActiveDiff}
+          isStarted={isStarted}
+        />
+        <Mode
+          activeMode={activeMode}
+          setActiveMode={setActiveMode}
+          isStarted={isStarted}
+        />
       </TestToolbar>
       <Text
         data={TYPING_DATA}
@@ -44,6 +55,12 @@ export default function App() {
         setUserInput={setUserInput}
         isStarted={isStarted}
         setIsStarted={setIsStarted}
+        setIsFinished={setIsFinished}
+      />
+      <Reload
+        setIsStarted={setIsStarted}
+        setUserInput={setUserInput}
+        setIsFinished={setIsFinished}
       />
     </div>
   );

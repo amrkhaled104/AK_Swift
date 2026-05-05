@@ -1,19 +1,12 @@
 import { useState, useEffect } from "react";
-export default function Time({ activeMode, userInput, isStarted }) {
+export default function Time({ activeMode, userInput, isStarted, isFinished }) {
+  const isTimedMode = activeMode.includes("Timed");
   const [time, setTime] = useState(0);
-  const isTimedMode = activeMode.includes("60s");
-
-  useEffect(() => {
-    if (isTimedMode) {
-      setTime(60);
-    } else {
-      setTime(0);
-    }
-  }, [activeMode]);
+  isTimedMode && isStarted && userInput.length > 0 && time === 0 && setTime(60);
 
   useEffect(() => {
     let interval = null;
-    const shouldRun = isStarted && userInput.length > 0;
+    const shouldRun = isStarted && userInput.length > 0 && !isFinished;
 
     if (shouldRun) {
       interval = setInterval(() => {
@@ -25,18 +18,19 @@ export default function Time({ activeMode, userInput, isStarted }) {
           return prev + 1;
         });
       }, 1000);
-    } else {
-      if (isTimedMode) setTime(60);
-      else setTime(0);
     }
 
     return () => clearInterval(interval);
-  }, [isStarted, userInput.length > 0, isTimedMode]);
+  }, [isStarted, userInput.length > 0, isFinished]);
+
+  const minutes = Math.floor(time / 60);
+  const seconds = time % 60;
+  const formatTime = (num) => (num < 10 ? `0${num}` : num);
   return (
     <div className="time">
       <p>
         <span>Time:</span>
-        {time}
+        {formatTime(minutes)}:{formatTime(seconds)}
       </p>
     </div>
   );

@@ -1,4 +1,4 @@
-import {  useMemo, useRef, useEffect } from "react";
+import { useMemo, useRef, useEffect } from "react";
 
 function getRandomText(data, activeDiff) {
   const diffKey = activeDiff.toLowerCase().trim();
@@ -12,7 +12,16 @@ function getRandomText(data, activeDiff) {
   return "Please select a difficulty to start...";
 }
 
-export default function Text({ data, activeDiff, activeMode ,userInput, setUserInput, isStarted, setIsStarted}) {
+export default function Text({
+  data,
+  activeDiff,
+  activeMode,
+  userInput,
+  setUserInput,
+  isStarted,
+  setIsStarted,
+  setIsFinished,
+}) {
   const inputRef = useRef(null);
   const isReady = activeDiff.trim() !== "" && activeMode.trim() !== "";
 
@@ -38,8 +47,15 @@ export default function Text({ data, activeDiff, activeMode ,userInput, setUserI
         type="text"
         style={{ opacity: 0, position: "absolute", zIndex: -1 }}
         onChange={(e) => {
-          setUserInput(e.target.value);
-          console.log("User Input:", e.target.value);
+          const value = e.target.value.toLowerCase();
+          setUserInput(value);
+          //   console.log("User Input:", e.target.value);
+          if (
+            value.length === currentDisplay.length &&
+            currentDisplay.length > 0
+          ) {
+            setIsFinished(true);
+          }
         }}
       />
       <div className="text-card">
@@ -77,24 +93,27 @@ export default function Text({ data, activeDiff, activeMode ,userInput, setUserI
             transition: "all 0.3s ease",
           }}
         >
-          {currentDisplay.toLowerCase().split("").map((char, index) => {
-            let color = "";
-            if (index < userInput.length) {
-              color = userInput[index] === char ? "#2ecc71" : "#e74c3c";
-            }
+          {currentDisplay
+            .toLowerCase()
+            .split("")
+            .map((char, index) => {
+              let color = "";
+              if (index < userInput.length) {
+                color = userInput[index] === char ? "#2ecc71" : "#e74c3c";
+              }
 
-            return (
-              <span
-                key={index}
-                style={{
-                  color: color,
-                  marginRight: char === " " ? "0.25ch" : "0",
-                }}
-              >
-                {char}
-              </span>
-            );
-          })}
+              return (
+                <span
+                  key={index}
+                  style={{
+                    color: color,
+                    marginRight: char === " " ? "0.25ch" : "0",
+                  }}
+                >
+                  {char}
+                </span>
+              );
+            })}
         </p>
       </div>
     </div>
