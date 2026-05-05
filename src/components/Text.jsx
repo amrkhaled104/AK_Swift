@@ -21,6 +21,8 @@ export default function Text({
   isStarted,
   setIsStarted,
   setIsFinished,
+  setTotalErrors,
+  setTotalTyped,
 }) {
   const inputRef = useRef(null);
   const isReady = activeDiff.trim() !== "" && activeMode.trim() !== "";
@@ -48,8 +50,22 @@ export default function Text({
         style={{ opacity: 0, position: "absolute", zIndex: -1 }}
         onChange={(e) => {
           const value = e.target.value.toLowerCase();
+          if (value.length < userInput.length) {
+            setUserInput(value);
+            return;
+          }
+
+          const lastIndex = value.length - 1;
+          const typedChar = value[lastIndex].toLowerCase();
+          const targetChar = currentDisplay[lastIndex].toLowerCase();
+          //   console.log(typedChar, targetChar);
+
+          setTotalTyped((prev) => prev + 1);
+
+          if (typedChar !== targetChar) {
+            setTotalErrors((prev) => prev + 1);
+          }
           setUserInput(value);
-          //   console.log("User Input:", e.target.value);
           if (
             value.length === currentDisplay.length &&
             currentDisplay.length > 0

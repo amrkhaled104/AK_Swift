@@ -3,7 +3,6 @@ export default function Time({ activeMode, userInput, isStarted, isFinished }) {
   const isTimedMode = activeMode.includes("Timed");
   const [time, setTime] = useState(0);
   isTimedMode && isStarted && userInput.length > 0 && time === 0 && setTime(60);
-
   useEffect(() => {
     let interval = null;
     const shouldRun = isStarted && userInput.length > 0 && !isFinished;

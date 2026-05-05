@@ -11,7 +11,7 @@ import Time from "./components/Time";
 import Difficulty from "./components/Difficulty";
 import Mode from "./components/Mode";
 import Text from "./components/Text";
-import { Reload } from "./components/Reload";
+import Reload from "./components/Reload";
 
 export default function App() {
   const [activeDiff, setActiveDiff] = useState(" ");
@@ -19,6 +19,8 @@ export default function App() {
   const [userInput, setUserInput] = useState("");
   const [isStarted, setIsStarted] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
+  const [totalTyped, setTotalTyped] = useState(0);
+  const [totalErrors, setTotalErrors] = useState(0);
 
   return (
     <div className="app-container">
@@ -29,7 +31,7 @@ export default function App() {
 
       <TestToolbar>
         <Score />
-        <Accuracy />
+        <Accuracy totalTyped={totalTyped} totalErrors={totalErrors} />
         <Time
           activeMode={activeMode}
           userInput={userInput}
@@ -56,6 +58,8 @@ export default function App() {
         isStarted={isStarted}
         setIsStarted={setIsStarted}
         setIsFinished={setIsFinished}
+        setTotalErrors={setTotalErrors}
+        setTotalTyped={setTotalTyped}
       />
       <Reload
         setIsStarted={setIsStarted}
