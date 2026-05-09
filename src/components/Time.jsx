@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 export default function Time({ activeMode, userInput, isStarted, isFinished }) {
   const isTimedMode = activeMode.includes("Timed");
   const [time, setTime] = useState(0);
-  isTimedMode && isStarted && userInput.length > 0 && time === 0 && setTime(60);
+  isTimedMode && isStarted && userInput && time === 0 && setTime(60);
   useEffect(() => {
     let interval = null;
-    const shouldRun = isStarted && userInput.length > 0 && !isFinished;
+    const shouldRun = isStarted && !isFinished;
 
     if (shouldRun) {
       interval = setInterval(() => {
@@ -20,7 +20,7 @@ export default function Time({ activeMode, userInput, isStarted, isFinished }) {
     }
 
     return () => clearInterval(interval);
-  }, [isStarted, userInput.length > 0, isFinished]);
+  }, [isFinished, isStarted, isTimedMode]);
 
   const minutes = Math.floor(time / 60);
   const seconds = time % 60;

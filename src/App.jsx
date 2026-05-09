@@ -34,9 +34,9 @@ export default function App() {
         <Accuracy totalTyped={totalTyped} totalErrors={totalErrors} />
         <Time
           activeMode={activeMode}
-          userInput={userInput}
           isStarted={isStarted}
           isFinished={isFinished}
+          userInput={userInput}
         />
         <Difficulty
           activeDiff={activeDiff}
