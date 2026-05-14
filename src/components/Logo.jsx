@@ -1,4 +1,5 @@
 import logo from "../assets/images/logo-small.svg";
+import "./Logo.css";
 
 export default function Logo() {
   return (

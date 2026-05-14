@@ -1,0 +1,7 @@
+.reload-icon {
+  transition: transform 0.3s ease;
+}
+
+button:hover .reload-icon {
+  transform: rotate(180deg);
+}

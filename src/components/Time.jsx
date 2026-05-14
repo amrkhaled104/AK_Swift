@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import "./Time.css";
 
 export default function Time({
   activeMode,
@@ -19,7 +20,7 @@ export default function Time({
 
   useEffect(() => {
     const canStart = isStarted && !isFinished && userInput.length > 0;
-    
+
     if (!canStart) return;
 
     const interval = setInterval(() => {
@@ -36,7 +37,7 @@ export default function Time({
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isStarted, isFinished, userInput.length > 0, isTimedMode]); 
+  }, [isStarted, isFinished, isTimedMode, userInput.length>0]);
 
   useEffect(() => {
     if (isTimedMode && time === 0 && isStarted && !isFinished) {
@@ -50,7 +51,12 @@ export default function Time({
 
   return (
     <div className="time">
-      <p><span>Time: </span>{pad(minutes)}:{pad(seconds)}</p>
+      <p>
+        <span>Time:</span>{" "}
+        <span className="value-time">
+          {pad(minutes)}:{pad(seconds)}
+        </span>
+      </p>
     </div>
   );
 }

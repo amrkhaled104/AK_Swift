@@ -1,0 +1,23 @@
+.stats-badge {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  gap: 0.6rem;
+}
+
+.stats-icon {
+  width: 20px;
+  height: auto;
+}
+
+.stats-text {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.stats-text span {
+  color: var(--neutral-500);
+  font-weight: 400;
+  margin-right: 4px;
+}

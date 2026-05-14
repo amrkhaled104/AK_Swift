@@ -1,3 +1,5 @@
+import "./Difficulty.css";
+
 export default function Difficulty({ activeDiff, setActiveDiff, isStarted }) {
   const difficulties = ["Easy", "Medium", "Hard"];
   return (

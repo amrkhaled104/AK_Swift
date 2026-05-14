@@ -1,4 +1,5 @@
 import { useMemo, useRef, useEffect } from "react";
+import "./Text.css";
 
 function getRandomText(data, activeDiff) {
   const diffKey = activeDiff.toLowerCase().trim();
@@ -23,7 +24,7 @@ export default function Text({
   setIsFinished,
   setTotalErrors,
   setTotalTyped,
-  isFinished
+  isFinished,
 }) {
   const inputRef = useRef(null);
   const isReady = activeDiff.trim() !== "" && activeMode.trim() !== "";

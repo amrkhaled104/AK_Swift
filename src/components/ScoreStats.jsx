@@ -1,6 +1,7 @@
 import trophy from "../assets/images/icon-personal-best.svg";
+import "./ScoreStats.css";
 
-export default function ScoreStats({newRecord}) {
+export default function ScoreStats({ newRecord }) {
   return (
     <div className="stats-badge">
       <img src={trophy} alt="Trophy" className="stats-icon" />

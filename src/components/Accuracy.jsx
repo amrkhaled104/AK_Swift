@@ -1,3 +1,5 @@
+import "./Accuracy.css";
+
 export default function Accuracy({ totalTyped, totalErrors }) {
   function calculateAccuracy() {
     if (totalTyped === 0) return 100;
@@ -9,7 +11,7 @@ export default function Accuracy({ totalTyped, totalErrors }) {
     <div className="accuracy">
       <p>
         <span>Accuracy:</span>
-        {calculateAccuracy()}%
+        <span className="value-accuracy">{calculateAccuracy()}%</span>
       </p>
     </div>
   );

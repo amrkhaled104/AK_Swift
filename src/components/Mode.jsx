@@ -1,3 +1,5 @@
+import "./Mode.css";
+
 export default function Mode({ activeMode, setActiveMode, isStarted }) {
   const modes = ["Timed(60s)", "passage"];
   return (

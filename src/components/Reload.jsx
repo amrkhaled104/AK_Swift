@@ -1,3 +1,5 @@
+import "./Reload.css";
+
 export default function Reload({ setIsStarted, setUserInput, setIsFinished }) {
   const handleReset = () => {
     setIsStarted(false);

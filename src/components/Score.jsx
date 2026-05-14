@@ -1,3 +1,5 @@
+import "./Score.css";
+
 export default function Score({ time, totalTyped, totalErrors, activeMode }) {
   const isTimedMode = activeMode.includes("Timed");
 
@@ -13,7 +15,7 @@ export default function Score({ time, totalTyped, totalErrors, activeMode }) {
   return (
     <div className="score">
       <p>
-        <span>WPM:</span> {wpm}
+        <span>WPM:</span> <span className="value-wpm">{wpm}</span>
       </p>
     </div>
   );
