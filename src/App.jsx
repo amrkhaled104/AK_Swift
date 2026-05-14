@@ -12,8 +12,7 @@ import Difficulty from "./components/Difficulty";
 import Mode from "./components/Mode";
 import Text from "./components/Text";
 import Reload from "./components/Reload";
-
-
+import { useEffect } from "react";
 
 export default function App() {
   const [activeDiff, setActiveDiff] = useState(" ");
@@ -24,15 +23,39 @@ export default function App() {
   const [totalTyped, setTotalTyped] = useState(0);
   const [totalErrors, setTotalErrors] = useState(0);
   const [time, setTime] = useState(0);
+  const [newRecord, setNewRecord] = useState(false);
+
+  useEffect(() => {
+    setNewRecord(Number(localStorage.getItem("personalBest"))||0);
+  }, [isStarted]);
+  useEffect(() => {
+    const secondsElapsed = activeMode.includes("Timed") ? 60 - time : time;
+    const effectiveTime = Math.max(secondsElapsed, 1);
+    const finalWpm = Math.round(
+      (totalTyped - totalErrors) / 5 / (effectiveTime / 60),
+    );
+    if (isFinished) {
+      const savedBest = Number(localStorage.getItem("personalBest")) || 0;
+      if (finalWpm > savedBest) {
+        localStorage.setItem("personalBest", finalWpm.toString());
+        setNewRecord(finalWpm);
+      }
+    }
+  }, [isFinished, setNewRecord, activeMode, time, totalTyped, totalErrors]);
 
   return (
     <div className="app-container">
       <Navbar>
         <Logo />
-        <ScoreStats />
+        <ScoreStats newRecord={newRecord} />
       </Navbar>
       <TestToolbar>
-        <Score time={time} totalTyped={totalTyped} totalErrors={totalErrors} activeMode={activeMode} />
+        <Score
+          time={time}
+          totalTyped={totalTyped}
+          totalErrors={totalErrors}
+          activeMode={activeMode}
+        />
         <Accuracy totalTyped={totalTyped} totalErrors={totalErrors} />
         <Time
           activeMode={activeMode}
@@ -73,9 +96,7 @@ export default function App() {
         setUserInput={setUserInput}
         setIsFinished={setIsFinished}
       />
-      <Result>
-
-      </Result>
+      <Result></Result>
     </div>
   );
 }
