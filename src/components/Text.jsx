@@ -23,6 +23,7 @@ export default function Text({
   setIsFinished,
   setTotalErrors,
   setTotalTyped,
+  isFinished
 }) {
   const inputRef = useRef(null);
   const isReady = activeDiff.trim() !== "" && activeMode.trim() !== "";
@@ -46,6 +47,7 @@ export default function Text({
     <div className="text-display-container">
       <input
         ref={inputRef}
+        disabled={isFinished}
         type="text"
         style={{ opacity: 0, position: "absolute", zIndex: -1 }}
         onChange={(e) => {
@@ -58,7 +60,6 @@ export default function Text({
           const lastIndex = value.length - 1;
           const typedChar = value[lastIndex].toLowerCase();
           const targetChar = currentDisplay[lastIndex].toLowerCase();
-          //   console.log(typedChar, targetChar);
 
           setTotalTyped((prev) => prev + 1);
 
@@ -67,6 +68,7 @@ export default function Text({
           }
           setUserInput(value);
           if (
+            !activeMode.includes("Timed") &&
             value.length === currentDisplay.length &&
             currentDisplay.length > 0
           ) {

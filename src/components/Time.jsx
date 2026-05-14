@@ -1,36 +1,56 @@
-import { useState, useEffect } from "react";
-export default function Time({ activeMode, userInput, isStarted, isFinished }) {
-  const isTimedMode = activeMode.includes("Timed");
-  const [time, setTime] = useState(0);
-  isTimedMode && isStarted && userInput && time === 0 && setTime(60);
-  useEffect(() => {
-    let interval = null;
-    const shouldRun = isStarted && !isFinished;
+import { useEffect } from "react";
 
-    if (shouldRun) {
-      interval = setInterval(() => {
-        setTime((prev) => {
-          if (isTimedMode) {
-            if (prev <= 1) return 0;
-            return prev - 1;
-          }
-          return prev + 1;
-        });
-      }, 1000);
+export default function Time({
+  activeMode,
+  userInput,
+  isStarted,
+  isFinished,
+  setIsFinished,
+  time,
+  setTime,
+}) {
+  const isTimedMode = activeMode.includes("Timed");
+
+  useEffect(() => {
+    if (!isStarted) {
+      setTime(isTimedMode ? 60 : 0);
     }
+  }, [isTimedMode, isStarted, setTime]);
+
+  useEffect(() => {
+    const canStart = isStarted && !isFinished && userInput.length > 0;
+    
+    if (!canStart) return;
+
+    const interval = setInterval(() => {
+      setTime((prev) => {
+        if (isTimedMode) {
+          if (prev <= 1) {
+            clearInterval(interval);
+            return 0;
+          }
+          return prev - 1;
+        }
+        return prev + 1;
+      });
+    }, 1000);
 
     return () => clearInterval(interval);
-  }, [isFinished, isStarted, isTimedMode]);
+  }, [isStarted, isFinished, userInput.length > 0, isTimedMode]); 
+
+  useEffect(() => {
+    if (isTimedMode && time === 0 && isStarted && !isFinished) {
+      setIsFinished(true);
+    }
+  }, [time, isTimedMode, isStarted, isFinished, setIsFinished]);
 
   const minutes = Math.floor(time / 60);
   const seconds = time % 60;
-  const formatTime = (num) => (num < 10 ? `0${num}` : num);
+  const pad = (n) => String(n).padStart(2, "0");
+
   return (
     <div className="time">
-      <p>
-        <span>Time:</span>
-        {formatTime(minutes)}:{formatTime(seconds)}
-      </p>
+      <p><span>Time: </span>{pad(minutes)}:{pad(seconds)}</p>
     </div>
   );
 }
