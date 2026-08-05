@@ -1,5 +1,5 @@
 import "./index.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { TYPING_DATA } from "./data";
 import Header from "./containers/Header";
 import TestStats from "./containers/TestStats";
@@ -17,31 +17,54 @@ export default function App() {
   const [totalErrors, setTotalErrors] = useState(0);
   const [time, setTime] = useState(0);
 
-  const [newRecord, setNewRecord] = useState(
-    Number(localStorage.getItem("personalBest")) || 0,
-  );
+  const [personalBest, setPersonalBest] = useState(() => {
+    const savedBest = localStorage.getItem("personalBest");
+    return savedBest !== null ? Number(savedBest) : 0;
+  });
+  const [resultState, setResultState] = useState(null);
 
-  useEffect(() => {
-    if (isFinished) {
-      const secondsElapsed = activeMode.includes("Timed") ? 60 - time : time;
-      const effectiveTime = Math.max(secondsElapsed, 1);
-      const finalWpm = Math.round(
-        (totalTyped - totalErrors) / 5 / (effectiveTime / 60),
-      );
+  const correctChars = totalTyped - totalErrors;
+  const secondsElapsed = activeMode.includes("Timed") ? 60 - time : time;
+  const timeForWpm = Math.max(secondsElapsed, 1);
+  const currentWpm = Math.round(correctChars / 5 / (timeForWpm / 60));
+  const accuracy =
+    totalTyped > 0 ? Math.round((correctChars / totalTyped) * 100) : 0;
 
-      const savedBest = Number(localStorage.getItem("personalBest")) || 0;
-      if (finalWpm > savedBest) {
-        localStorage.setItem("personalBest", finalWpm.toString());
-        setTimeout(() => setNewRecord(finalWpm), 0);
-      } else {
-        setTimeout(() => setNewRecord(savedBest), 0);
-      }
+  const handleFinish = () => {
+    if (isFinished) return;
+
+    const savedBestValue = localStorage.getItem("personalBest");
+    const savedBest = savedBestValue !== null ? Number(savedBestValue) : 0;
+    let nextResult = "standard";
+    let nextBest = savedBest;
+
+    if (savedBestValue === null) {
+      nextBest = currentWpm;
+      nextResult = "firstTest";
+      localStorage.setItem("personalBest", currentWpm.toString());
+    } else if (currentWpm > savedBest) {
+      nextBest = currentWpm;
+      nextResult = "highScore";
+      localStorage.setItem("personalBest", currentWpm.toString());
     }
-  }, [isFinished, activeMode, time, totalTyped, totalErrors]);
+
+    setIsFinished(true);
+    setPersonalBest(nextBest);
+    setResultState(nextResult);
+  };
+
+  const handleRetry = () => {
+    setIsStarted(false);
+    setIsFinished(false);
+    setUserInput("");
+    setTotalTyped(0);
+    setTotalErrors(0);
+    setResultState(null);
+  };
 
   return (
     <div className="app-container">
-      <Header newRecord={newRecord} />
+      <Header newRecord={personalBest} />
 
       <TestStats
         time={time}
@@ -50,7 +73,7 @@ export default function App() {
         activeMode={activeMode}
         isStarted={isStarted}
         isFinished={isFinished}
-        setIsFinished={setIsFinished}
+        onFinish={handleFinish}
         userInput={userInput}
         setTime={setTime}
         activeDiff={activeDiff}
@@ -66,10 +89,17 @@ export default function App() {
         setUserInput={setUserInput}
         isStarted={isStarted}
         setIsStarted={setIsStarted}
-        setIsFinished={setIsFinished}
         isFinished={isFinished}
         setTotalErrors={setTotalErrors}
         setTotalTyped={setTotalTyped}
+        resultState={resultState}
+        currentWpm={currentWpm}
+        accuracy={accuracy}
+        correctChars={correctChars}
+        incorrectChars={totalErrors}
+        personalBest={personalBest}
+        onRetry={handleRetry}
+        onFinish={handleFinish}
       />
     </div>
   );

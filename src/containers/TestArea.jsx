@@ -1,5 +1,6 @@
 import Text from "../components/Text";
 import Reload from "../components/Reload";
+import ResultOverlay from "../components/ResultOverlay";
 import "./TestArea.css";
 
 export default function TestArea({
@@ -14,6 +15,14 @@ export default function TestArea({
   isFinished,
   setTotalErrors,
   setTotalTyped,
+  resultState,
+  currentWpm,
+  accuracy,
+  correctChars,
+  incorrectChars,
+  personalBest,
+  onRetry,
+  onFinish,
 }) {
   return (
     <div className="test-area">
@@ -25,18 +34,33 @@ export default function TestArea({
         setUserInput={setUserInput}
         isStarted={isStarted}
         setIsStarted={setIsStarted}
-        setIsFinished={setIsFinished}
+        onFinish={onFinish}
         isFinished={isFinished}
         setTotalErrors={setTotalErrors}
         setTotalTyped={setTotalTyped}
       />
-      <div className="test-controls">
-        <Reload
-          setIsStarted={setIsStarted}
-          setUserInput={setUserInput}
-          setIsFinished={setIsFinished}
+
+      {!isFinished && (
+        <div className="test-controls">
+          <Reload
+            setIsStarted={setIsStarted}
+            setUserInput={setUserInput}
+            setIsFinished={setIsFinished}
+          />
+        </div>
+      )}
+
+      {isFinished && (
+        <ResultOverlay
+          resultState={resultState}
+          currentWpm={currentWpm}
+          accuracy={accuracy}
+          correctChars={correctChars}
+          incorrectChars={incorrectChars}
+          personalBest={personalBest}
+          onRetry={onRetry}
         />
-      </div>
+      )}
     </div>
   );
 }
