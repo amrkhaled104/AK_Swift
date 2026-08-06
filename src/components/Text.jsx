@@ -21,7 +21,7 @@ export default function Text({
   setUserInput,
   isStarted,
   setIsStarted,
-  setIsFinished,
+  onFinish,
   setTotalErrors,
   setTotalTyped,
   isFinished,
@@ -73,7 +73,7 @@ export default function Text({
             value.length === currentDisplay.length &&
             currentDisplay.length > 0
           ) {
-            setIsFinished(true);
+            if (typeof onFinish === "function") onFinish();
           }
         }}
       />

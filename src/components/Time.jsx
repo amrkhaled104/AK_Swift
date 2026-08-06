@@ -6,7 +6,7 @@ export default function Time({
   userInput,
   isStarted,
   isFinished,
-  setIsFinished,
+  onFinish,
   time,
   setTime,
 }) {
@@ -37,13 +37,13 @@ export default function Time({
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isStarted, isFinished, isTimedMode, userInput.length>0]);
+  }, [isStarted, isFinished, isTimedMode, userInput.length > 0]);
 
   useEffect(() => {
     if (isTimedMode && time === 0 && isStarted && !isFinished) {
-      setIsFinished(true);
+      if (typeof onFinish === "function") onFinish();
     }
-  }, [time, isTimedMode, isStarted, isFinished, setIsFinished]);
+  }, [time, isTimedMode, isStarted, isFinished, onFinish]);
 
   const minutes = Math.floor(time / 60);
   const seconds = time % 60;

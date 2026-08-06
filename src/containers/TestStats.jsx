@@ -12,7 +12,7 @@ export default function TestStats({
   activeMode,
   isStarted,
   isFinished,
-  setIsFinished,
+  onFinish,
   userInput,
   setTime,
   activeDiff,
@@ -32,7 +32,7 @@ export default function TestStats({
         activeMode={activeMode}
         isStarted={isStarted}
         isFinished={isFinished}
-        setIsFinished={setIsFinished}
+        onFinish={onFinish}
         userInput={userInput}
         time={time}
         setTime={setTime}

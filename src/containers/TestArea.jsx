@@ -45,7 +45,7 @@ export default function TestArea({
           <Reload
             setIsStarted={setIsStarted}
             setUserInput={setUserInput}
-            setIsFinished={setIsFinished}
+            onRetry={onRetry}
           />
         </div>
       )}

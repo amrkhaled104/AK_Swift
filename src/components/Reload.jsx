@@ -1,10 +1,12 @@
 import "./Reload.css";
 
-export default function Reload({ setIsStarted, setUserInput, setIsFinished }) {
+export default function Reload({ setIsStarted, setUserInput, onRetry }) {
   const handleReset = () => {
-    setIsStarted(false);
-    setIsFinished(false);
-    setUserInput("");
+    if (typeof onRetry === "function") onRetry();
+    else {
+      setIsStarted(false);
+      setUserInput("");
+    }
   };
 
   return (
