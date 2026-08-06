@@ -42,7 +42,18 @@ export default function Text({
       inputRef.current.value = "";
       inputRef.current.focus();
     }
-  }, [activeDiff, data, setUserInput, isStarted]);
+    const handleFocus = () => {
+      if (isStarted && !isFinished && inputRef.current) {
+        inputRef.current.focus();
+      }
+    };
+    window.addEventListener("focus", handleFocus);
+    window.addEventListener("click", handleFocus);
+    return () => {
+      window.removeEventListener("focus", handleFocus);
+      window.removeEventListener("click", handleFocus);
+    };
+  }, [activeDiff, data, setUserInput, isStarted, isFinished]);
 
   return (
     <div className="text-display-container">
