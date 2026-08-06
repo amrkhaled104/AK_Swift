@@ -131,13 +131,15 @@ export default function Text({
               if (index < userInput.length) {
                 color = userInput[index] === char ? "#2ecc71" : "#e74c3c";
               }
-
+              const isCurrentCursor =
+                index === userInput.length && isStarted && !isFinished;
               return (
                 <span
                   key={index}
                   style={{
                     color: color,
                     marginRight: char === " " ? "0.25ch" : "0",
+                    borderLeft: isCurrentCursor ? "2px solid #3498db" : "none",
                   }}
                 >
                   {char}
