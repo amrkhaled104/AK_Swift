@@ -263,9 +263,11 @@
 
 @media (max-width: 760px) {
   .overlay-card {
-    padding: 2rem 1.5rem 1.5rem;
+    padding: 4rem 1.5rem 1.5rem;
   }
-
+  .personal-best-badge {
+    display: none;
+  }
   .stats-row {
     grid-template-columns: 1fr;
   }
